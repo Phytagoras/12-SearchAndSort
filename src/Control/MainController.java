@@ -3,7 +3,6 @@ package Control;
 import Model.Ball;
 import Model.List;
 import View.DrawingPanel;
-import View.MainFrame;
 
 import java.util.Random;
 
@@ -203,7 +202,7 @@ public class MainController {
         loops = 0;
         switches = 0;
         // Quick Sort Start
-        quickSortRekursiv(0,moddedArray.length-1);
+        quicksortRecursive(0,moddedArray.length-1);
         // Quick Sort Ende
         time = (System.nanoTime() - time)/1000;
         updateCoordinates();
@@ -212,7 +211,7 @@ public class MainController {
     /**
      * Die eigentliche rekursive Quicksort-Methode.
      */
-    private void quickSortRekursiv(int start, int end){
+    private void quicksortRecursive(int start, int end){
         loops++;
         int i = start;
         int j = end;
