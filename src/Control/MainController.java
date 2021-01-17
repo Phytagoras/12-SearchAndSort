@@ -7,7 +7,8 @@ import View.DrawingPanel;
 import java.util.Random;
 
 /**
- * Created by Jean-Pierre on 12.01.2017.
+ * Idea by KNB,
+ * Rework by AOS on 12.01.2017, 24.02.2018
  */
 public class MainController {
 
@@ -22,7 +23,7 @@ public class MainController {
     private Ball lastFound;
     private Ball[] originalArray;
     private Ball[] moddedArray;
-    private List<Ball>[] hashArray; //Hier wird mit einer Verkettung gearbeitet
+    private List<Ball>[] hashArray; //Hier handelt es sich um ein Array, das Listen verwaltet.
 
     public MainController(){
         rng = new Random();
@@ -30,7 +31,8 @@ public class MainController {
     }
 
     /**
-     * Erzeugt ein Array aus zufällig gefüllten Kreises mit sinnvollen Koordinaten.
+     * Erzeugt das Array originalArray aus zufällig gefüllten Kreisen mit sinnvollen Koordinaten. Dabei wird von jedem Ball-Objekt eine exakte Kopie erstellt und einem weiteren Array, dem moddedArray, hinzugefügt.
+     * Die Methoden, die noch implementiert werden müssen, verändern das moddedArray, nicht das originalArray.
      * @param amount Anzahl der Bälle
      * @param originalPanel Panel zur Darstellung des Urpsrungsarrays.
      * @param moddedPanel Panel zur Darstellung des abgeändereten (sortierten?) Arrays.
@@ -232,11 +234,11 @@ public class MainController {
     public void hashIt(DrawingPanel hashPanel){
         hashPanel.removeAllObjects();
         hashArray = new List[1]; //Die Länge des Arrays wird durch die Anzahl prinzipiell möglicher Funktionswerte der Hash-Funktion festgelegt.
-            //TODO 04a: Implementiere eine Hashfunktion samt Sortierung der Bälle ins Hasharray. Vergiss nicht, dann auch die Hashsuche zu implementieren!
+            //TODO 04b: Nach de Implementierung der Hashfunktion müssen die Ball-Objekte gemäß der Funktion ins hashArray übertragen werden. Beachte hierbei, dass du mit Ballkopien arbeiten musst, nicht mit den Originalen.
 
         int x = 10; //Start-Koordinate des ersten anzuzeigenen Balls
         int y = 10; //Start-Koordinate des ersten anzuzeigenen Balls
-            //TODO 04b: Überarbeitung der Koordinaten der Bälle in der Hashtabelle für die Darstellung in der View.
+            //TODO 04c: Überarbeite die Koordinaten der Ball-Objekte im hashArray für die Darstellung in der View.
     }
 
     /**
@@ -245,7 +247,7 @@ public class MainController {
      * @return Funktionswert
      */
     private int hashFunction(int argument){
-            //TODO 4c: Implementiere eine vernünftige Hashfunktion.
+            //TODO 4a: Implementiere eine vernünftige Hashfunktion.
         return 0;
     }
 
