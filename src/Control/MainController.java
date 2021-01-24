@@ -152,12 +152,15 @@ public class MainController {
         // Bubblesort Start
         for(int i = 0; i < moddedArray.length; i++){
             loops++;
+            boolean hasChanged = false;
             for (int j = 0; j < moddedArray.length-1-i; j++){
                 loops++;
                 if(moddedArray[j].getNumber() > moddedArray[j+1].getNumber()){
                     switchBalls(j, j+1);
+                    hasChanged = true;
                 }
             }
+            if(!hasChanged)break;
         }
         // Bubble Sort Ende
         time = (System.nanoTime() - time)/1000;
