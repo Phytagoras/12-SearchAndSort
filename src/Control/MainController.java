@@ -160,7 +160,7 @@ public class MainController {
                     hasChanged = true;
                 }
             }
-            if(!hasChanged)break;
+            if(!hasChanged)break;       //Mit der Zeile ist Bubblesort selten schneller als Optimized Selection Sort Algorithm - ohne die Zeile ist OSSA immer schneller
         }
         // Bubble Sort Ende
         time = (System.nanoTime() - time)/1000;
@@ -170,18 +170,57 @@ public class MainController {
     /**
      * Sortiert das modded-Array gemäß dem Selection-Sort-Algorithmus.
      */
-    public void selectionSortArray() {
+    public void OSSA() {
         time = System.nanoTime();
         loops = 0;
         switches = 0;
+        int min, max;
         // Selectionsort Start
+        //OSSA - Optimized Selection Sort Algorithm - nicht stabil, weil wer braucht schon stabil...wenn du stabil willst, dann mach doch einfach RADIX SORT!!!!!!!!!
+        for (int i = 0; i < (moddedArray.length / 2); i++){
+            loops +=1;
+             min = i;
+             max = moddedArray.length - i - 1;
+             for(int j = i; j < moddedArray.length - i; j ++){
+                 loops +=1;
+                 if(moddedArray[j].getNumber() < moddedArray[min].getNumber()){
+                     min = j;
+                 }
+                 if(moddedArray[j].getNumber() > moddedArray[max].getNumber()){
+                     max = j;
+                 }
+             }
+             if(max == i) max = min;
+             switchBalls(min, i);
+             switchBalls(max, moddedArray.length - i - 1);
+        }
 
-            //TODO 02: Orientiere dich für die Messung der Schleifendurchgänge und der tatsächlichen Vertauschungen an Bubblesort und implementiere Selectionsort inplace.
 
         // Selection Sort Ende
         time = (System.nanoTime() - time)/1000;
         updateCoordinates();
     }
+    /*public void selectionSort() {
+        time = System.nanoTime();
+        loops = 0;
+        switches = 0;
+        int min;
+        // Selectionsort Start
+        for (int i = 0; i < moddedArray.length - 1; i++){
+            min = i;
+            for(int j = i; j < moddedArray.length - 1; j ++){
+                if(moddedArray[j].getNumber() < moddedArray[min].getNumber()){
+                    min = j;
+                }
+            }
+            switchBalls(min, i);
+        }
+
+
+        // Selection Sort Ende
+        time = (System.nanoTime() - time)/1000;
+        updateCoordinates();
+    }*/
 
     /**
      * Sortiert das modded-Array gemäß dem Insertion-Sort-Algorithmus.

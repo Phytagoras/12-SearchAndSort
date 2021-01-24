@@ -124,7 +124,7 @@ public class InteractionPanelHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainController.recopy(moddedPanel);
-                mainController.selectionSortArray();
+                mainController.OSSA();
                 labelSelectionsortLoops.setText(String.valueOf(mainController.getLoops()));
                 labelSelectionsortTime.setText(String.valueOf(mainController.getTime()));
                 labelSelectionsortSwitch.setText(String.valueOf(mainController.getSwitches()));

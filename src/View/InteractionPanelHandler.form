@@ -208,7 +208,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Selectionsort"/>
+          <text value="OSSA"/>
         </properties>
       </component>
       <component id="fadeb" class="javax.swing.JButton" binding="quicksortButton" default-binding="true">
