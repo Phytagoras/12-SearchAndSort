@@ -40,6 +40,10 @@ public class InteractionPanelHandler {
     private JButton hashItButton;
     private JLabel labelHashSearchTime;
     private JLabel labelHashSearchLoops;
+    private JButton selectionsortButton1;
+    private JLabel labelSelectTime;
+    private JLabel labelSelectLoop;
+    private JLabel labelSelectSwitch;
 
     private MainController mainController;
     private DrawingPanel hashPanel, originalPanel, moddedPanel;
@@ -52,6 +56,7 @@ public class InteractionPanelHandler {
 
         System.out.println(hashPanel);
         createButtons();
+
     }
 
     private void createButtons(){
@@ -63,6 +68,7 @@ public class InteractionPanelHandler {
         insertionSortButton.setEnabled(false);
         selectionsortButton.setEnabled(false);
         quicksortButton.setEnabled(false);
+        selectionsortButton1.setEnabled(false);
 
         buttonGenerate.addActionListener(new ActionListener() {
             @Override
@@ -79,6 +85,7 @@ public class InteractionPanelHandler {
                 insertionSortButton.setEnabled(true);
                 selectionsortButton.setEnabled(true);
                 quicksortButton.setEnabled(true);
+                selectionsortButton1.setEnabled(true);
                 clearLabels();
             }
         });
@@ -128,6 +135,17 @@ public class InteractionPanelHandler {
                 labelSelectionsortLoops.setText(String.valueOf(mainController.getLoops()));
                 labelSelectionsortTime.setText(String.valueOf(mainController.getTime()));
                 labelSelectionsortSwitch.setText(String.valueOf(mainController.getSwitches()));
+                binSearchButton.setEnabled(true);
+            }
+        });
+        selectionsortButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.recopy(moddedPanel);
+                mainController.selectionSort();
+                labelSelectLoop.setText(String.valueOf(mainController.getLoops()));
+                labelSelectTime.setText(String.valueOf(mainController.getTime()));
+                labelSelectSwitch.setText(String.valueOf(mainController.getSwitches()));
                 binSearchButton.setEnabled(true);
             }
         });

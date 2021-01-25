@@ -200,15 +200,17 @@ public class MainController {
         time = (System.nanoTime() - time)/1000;
         updateCoordinates();
     }
-    /*public void selectionSort() {
+    public void selectionSort() {
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         int min;
         // Selectionsort Start
-        for (int i = 0; i < moddedArray.length - 1; i++){
+        for (int i = 0; i < moddedArray.length; i++){
+            loops +=1;
             min = i;
-            for(int j = i; j < moddedArray.length - 1; j ++){
+            for(int j = i; j < moddedArray.length; j ++){
+                loops +=1;
                 if(moddedArray[j].getNumber() < moddedArray[min].getNumber()){
                     min = j;
                 }
@@ -220,7 +222,7 @@ public class MainController {
         // Selection Sort Ende
         time = (System.nanoTime() - time)/1000;
         updateCoordinates();
-    }*/
+    }
 
     /**
      * Sortiert das modded-Array gemäß dem Insertion-Sort-Algorithmus.
