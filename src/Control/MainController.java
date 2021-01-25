@@ -237,9 +237,15 @@ public class MainController {
         loops = 0;
         switches = 0;
         // Insertionsort Start
-
-        //TODO 03: Orientiere dich für die Messung der Schleifendurchgänge und der tatsächlichen Vertauschungen an Bubblesort und implementiere Insertionssort inplace.
-
+        for(int i = 1; i < moddedArray.length; i++){
+            Ball tmp = moddedArray[i];
+            int j = i;
+            while( j > 0 && moddedArray [j - 1].getNumber() > tmp.getNumber()){
+                switchBalls(j, j-1  );
+                j--;
+            }
+            moddedArray[j] = tmp;
+        }
         // Insertion Sort Ende
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
