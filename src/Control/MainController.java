@@ -260,25 +260,23 @@ public class MainController {
         switches = 0;
         time = System.nanoTime();
         int maxLength = ((Math.max(100, moddedArray.length)) + "").length();
-        radixSortRecursive(maxLength -  1, maxLength);
+        radixSortRecursive(maxLength, maxLength);
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
     }
 
     public static void main(String[] args){
-        int dividend1 = (int) Math.pow( 10, 4 - 0 );
-        int dividend2 = dividend1 / 10;
-        if(dividend2 == 0) dividend2 = 1;
-        System.out.println((3456% dividend1)/dividend2);
+        int dividend1 = (int) Math.pow( 10, 0);
+        int dividend2 = 10;
+        System.out.println((3456/dividend1)%10);
     }
     public int radixSortRecursive(int depth, int maxLength){
         if(depth > 0){
             int dividend1 = (int) Math.pow( 10, maxLength - depth );
-            int dividend2 = dividend1 / 10;
-            if(dividend2 == 0) dividend2 = 1;
+            int dividend2 = 10;
             int [] countsArray = new int[10];
             for ( Ball ball:moddedArray){
-                countsArray[ (ball.getNumber() % dividend1)/dividend2] ++;
+                countsArray[ (ball.getNumber() / dividend1)%dividend2] ++;
                 loops++;
             }
             for (int i = 1; i < 10; i++) {
@@ -292,10 +290,11 @@ public class MainController {
             countsArray[0] = 0;
             Ball[] sortedArray = new Ball[moddedArray.length];
             for ( Ball ball:moddedArray){
-                int tmpCount = (ball.getNumber() % dividend1)/dividend2;
+                int tmpCount = (ball.getNumber() / dividend1)%dividend2;
                 sortedArray[countsArray[tmpCount]] = ball;
                 countsArray[tmpCount]++;
                 loops++;
+                switches++;
             }
             moddedArray = sortedArray;
             return radixSortRecursive( depth - 1 , maxLength);
