@@ -238,18 +238,73 @@ public class MainController {
         switches = 0;
         // Insertionsort Start
         for(int i = 1; i < moddedArray.length; i++){
+            loops ++;
             Ball tmp = moddedArray[i];
             int j = i;
             while( j > 0 && moddedArray [j - 1].getNumber() > tmp.getNumber()){
-                switchBalls(j, j-1  );
+                loops++;
+                switches++;
+                moddedArray[j] = moddedArray[j-1];
                 j--;
             }
             moddedArray[j] = tmp;
+            switches++;
         }
         // Insertion Sort Ende
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
     }
+
+    public void useRadixSorting(){
+        loops = 0;
+        switches = 0;
+        time = System.nanoTime();
+        int maxLength = ((Math.max(100, moddedArray.length)) + "").length();
+        radixSortRecursive(maxLength -  1, maxLength);
+        time = ( System.nanoTime() - time ) / 1000;
+        updateCoordinates();
+    }
+
+    public static void main(String[] args){
+        int dividend1 = (int) Math.pow( 10, 4 - 0 );
+        int dividend2 = dividend1 / 10;
+        if(dividend2 == 0) dividend2 = 1;
+        System.out.println((3456% dividend1)/dividend2);
+    }
+    public int radixSortRecursive(int depth, int maxLength){
+        if(depth > 0){
+            int dividend1 = (int) Math.pow( 10, maxLength - depth );
+            int dividend2 = dividend1 / 10;
+            if(dividend2 == 0) dividend2 = 1;
+            int [] countsArray = new int[10];
+            for ( Ball ball:moddedArray){
+                countsArray[ (ball.getNumber() % dividend1)/dividend2] ++;
+                loops++;
+            }
+            for (int i = 1; i < 10; i++) {
+                countsArray[i] = countsArray[i] + countsArray[i - 1];
+                loops++;
+            }
+            for (int i = 9; i > 0; i--) {
+                countsArray[i] = countsArray[i - 1];
+                loops++;
+            }
+            countsArray[0] = 0;
+            Ball[] sortedArray = new Ball[moddedArray.length];
+            for ( Ball ball:moddedArray){
+                int tmpCount = (ball.getNumber() % dividend1)/dividend2;
+                sortedArray[countsArray[tmpCount]] = ball;
+                countsArray[tmpCount]++;
+                loops++;
+            }
+            moddedArray = sortedArray;
+            return radixSortRecursive( depth - 1 , maxLength);
+        }
+        return 1;       //sry...ich wollte das unbedingt rekusiv imlementieren, doch bei dieser Anwedung laesst sich kein sinvoller rueckgabetyp verwenden, deshalb einfach Int: 1 = erfolgreich
+                        //Ich will nur die sideeffects des wiederholten Aufrufs erhalten!!!
+
+    }
+
 
     /**
      * Sortiert das modded-Array gemäß dem Quick-Sort-Algorithmus.

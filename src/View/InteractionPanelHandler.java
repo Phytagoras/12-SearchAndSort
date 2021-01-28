@@ -44,6 +44,10 @@ public class InteractionPanelHandler {
     private JLabel labelSelectTime;
     private JLabel labelSelectLoop;
     private JLabel labelSelectSwitch;
+    private JButton raddixSortButton;
+    private JLabel raddixTime;
+    private JLabel raddixLoop;
+    private JLabel raddixSwitch;
 
     private MainController mainController;
     private DrawingPanel hashPanel, originalPanel, moddedPanel;
@@ -57,6 +61,7 @@ public class InteractionPanelHandler {
         System.out.println(hashPanel);
         createButtons();
 
+
     }
 
     private void createButtons(){
@@ -69,6 +74,7 @@ public class InteractionPanelHandler {
         selectionsortButton.setEnabled(false);
         quicksortButton.setEnabled(false);
         selectionsortButton1.setEnabled(false);
+        raddixSortButton.setEnabled(false);
 
         buttonGenerate.addActionListener(new ActionListener() {
             @Override
@@ -86,6 +92,7 @@ public class InteractionPanelHandler {
                 selectionsortButton.setEnabled(true);
                 quicksortButton.setEnabled(true);
                 selectionsortButton1.setEnabled(true);
+                raddixSortButton.setEnabled(true);
                 clearLabels();
             }
         });
@@ -135,6 +142,17 @@ public class InteractionPanelHandler {
                 labelSelectionsortLoops.setText(String.valueOf(mainController.getLoops()));
                 labelSelectionsortTime.setText(String.valueOf(mainController.getTime()));
                 labelSelectionsortSwitch.setText(String.valueOf(mainController.getSwitches()));
+                binSearchButton.setEnabled(true);
+            }
+        });
+        raddixSortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                mainController.recopy(moddedPanel);
+                mainController.useRadixSorting();
+                raddixLoop.setText(String.valueOf(mainController.getLoops()));
+                raddixTime.setText(String.valueOf(mainController.getTime()));
+                raddixSwitch.setText(String.valueOf(mainController.getSwitches()));
                 binSearchButton.setEnabled(true);
             }
         });
@@ -203,5 +221,14 @@ public class InteractionPanelHandler {
         labelQuicksortLoops.setText("0");
         labelQuicksortSwitch.setText("0");
         labelQuicksortTime.setText("0");
+
+        raddixLoop.setText("0");
+        raddixSwitch.setText("0");
+        raddixTime.setText("0");
+
+        labelSelectLoop.setText("0");
+        labelSelectSwitch.setText("0");
+        labelSelectTime.setText("0");
+
     }
 }
