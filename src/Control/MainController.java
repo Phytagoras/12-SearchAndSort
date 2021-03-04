@@ -13,21 +13,23 @@ import java.util.Random;
 public class MainController {
 
     private final Random rng;
-
+    List<Ball>[][][][][] arrayTree;
     private int maxWidth;
-
     private long time;
     private long loops;
     private long switches;
-
     private Ball lastFound;
     private Ball[] originalArray;
     private Ball[] moddedArray;
-    private List<Ball>[] hashArray; //Hier handelt es sich um ein Array, das Listen verwaltet.
 
-    public MainController() {
+    public MainController(){
         rng = new Random();
-        rng.setSeed( System.currentTimeMillis() );
+        rng.setSeed(System.currentTimeMillis());
+    }
+
+    public static void main(String[] args){
+        MainController mainController = new MainController();
+        mainController.hashFunction(213005);
     }
 
     /**
@@ -38,25 +40,25 @@ public class MainController {
      * @param originalPanel Panel zur Darstellung des Urpsrungsarrays.
      * @param moddedPanel   Panel zur Darstellung des abgeändereten (sortierten?) Arrays.
      */
-    public void generateArray(int amount, DrawingPanel originalPanel, DrawingPanel moddedPanel) {
+    public void generateArray(int amount, DrawingPanel originalPanel, DrawingPanel moddedPanel){
         originalArray = new Ball[ amount ];
         moddedArray = new Ball[ amount ];
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         int x = 10;
         int y = 10;
-        int maxRandom = Integer.max( 100, amount );
+        int maxRandom = Integer.max(100, amount);
         this.maxWidth = originalPanel.getWidth();
-        for ( int i = 0; i < amount; i++ ) {
-            Ball newBall = new Ball( x, y, rng.nextInt( maxRandom ), alphabet.charAt( rng.nextInt( alphabet.length() ) ) );
+        for (int i = 0; i < amount; i++) {
+            Ball newBall = new Ball(x, y, rng.nextInt(maxRandom), alphabet.charAt(rng.nextInt(alphabet.length())));
             originalArray[ i ] = newBall;
-            originalPanel.addObject( originalArray[ i ] );
+            originalPanel.addObject(originalArray[ i ]);
 
             Ball copyBall = newBall.getCopy();
             moddedArray[ i ] = copyBall;
-            moddedPanel.addObject( moddedArray[ i ] );
+            moddedPanel.addObject(moddedArray[ i ]);
 
             x += 20;
-            if ( x > maxWidth - 10 ) {
+            if (x > maxWidth - 10){
                 x = 10;
                 y += 20;
             }
@@ -66,12 +68,12 @@ public class MainController {
     /**
      * Erzeugt eine frische, unsortierte Kopie des Original-Arrays.
      */
-    public void recopy(DrawingPanel moddedPanel) {
+    public void recopy(DrawingPanel moddedPanel){
         moddedPanel.removeAllObjects();
-        for ( int i = 0; i < originalArray.length; i++ ) {
+        for (int i = 0; i < originalArray.length; i++) {
             Ball copyBall = originalArray[ i ].getCopy();
             moddedArray[ i ] = copyBall;
-            moddedPanel.addObject( moddedArray[ i ] );
+            moddedPanel.addObject(moddedArray[ i ]);
         }
     }
 
@@ -79,15 +81,15 @@ public class MainController {
      * Setzt für alle Kugeln im sortierten Array neue Koordinaten gemäß der Reihenfolge im Array.
      * Muss nach dem Sortieren aufgerufen werden, damit die Sortierung sichtbar wird.
      */
-    private void updateCoordinates() {
+    private void updateCoordinates(){
         int x = 10;
         int y = 10;
-        for ( int i = 0; i < moddedArray.length; i++ ) {
-            moddedArray[ i ].setX( x );
-            moddedArray[ i ].setY( y );
+        for (int i = 0; i < moddedArray.length; i++) {
+            moddedArray[ i ].setX(x);
+            moddedArray[ i ].setY(y);
 
             x += 20;
-            if ( x > maxWidth - 10 ) {
+            if (x > maxWidth - 10){
                 x = 10;
                 y += 20;
             }
@@ -99,9 +101,9 @@ public class MainController {
      *
      * @param key Die gesuchte Zahl.
      */
-    public void linSearchArray(int key) {
-        if ( lastFound != null ) {
-            lastFound.setMarked( false );
+    public void linSearchArray(int key){
+        if (lastFound != null){
+            lastFound.setMarked(false);
         }
         time = System.nanoTime();
         loops = 0;
@@ -111,15 +113,15 @@ public class MainController {
         int i = 0;
         while (lastFound == null && i < moddedArray.length) {
             loops++;
-            if ( moddedArray[ i ].getNumber() == key ) {
+            if (moddedArray[ i ].getNumber() == key){
                 lastFound = moddedArray[ i ];
             }
             i++;
         }
         // Lineare Suche Ende
         time = ( System.nanoTime() - time ) / 1000;
-        if ( lastFound != null ) {
-            lastFound.setMarked( true );
+        if (lastFound != null){
+            lastFound.setMarked(true);
         }
     }
 
@@ -128,9 +130,9 @@ public class MainController {
      *
      * @param key Die gesuchte Zahl.
      */
-    public void binSearchArray(int key) {
-        if ( lastFound != null ) {
-            lastFound.setMarked( false );
+    public void binSearchArray(int key){
+        if (lastFound != null){
+            lastFound.setMarked(false);
         }
         time = System.nanoTime();
         loops = 0;
@@ -140,65 +142,65 @@ public class MainController {
 
         // Binäre Suche Ende
         time = ( System.nanoTime() - time ) / 1000;
-        if ( lastFound != null ) {
-            lastFound.setMarked( true );
+        if (lastFound != null){
+            lastFound.setMarked(true);
         }
     }
 
     /**
      * Sortiert das modded-Array gemäß dem Bubble-Sort-Algorithmus.
      */
-    public void bubbleSortArray() {
+    public void bubbleSortArray(){
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         // Bubblesort Start
-        for ( int i = 0; i < moddedArray.length; i++ ) {
+        for (int i = 0; i < moddedArray.length; i++) {
             loops++;
             boolean hasChanged = false;
-            for ( int j = 0; j < moddedArray.length - 1 - i; j++ ) {
+            for (int j = 0; j < moddedArray.length - 1 - i; j++) {
                 loops++;
-                if ( moddedArray[ j ].getNumber() > moddedArray[ j + 1 ].getNumber() ) {
-                    switchBalls( j, j + 1 );
+                if (moddedArray[ j ].getNumber() > moddedArray[ j + 1 ].getNumber()){
+                    switchBalls(j, j + 1);
                     hasChanged = true;
                 }
             }
-            if ( !hasChanged )
+            if (!hasChanged)
                 break;       //Mit der Zeile ist Bubblesort selten schneller als Optimized Selection Sort Algorithm - ohne die Zeile ist OSSA immer schneller
         }
         // Bubble Sort Ende
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
-        long ops = ((loops + switches)+((loops + switches)%100000));
-        System.out.println(ops - (ops%100000));
+        long ops = ( ( loops + switches ) + ( ( loops + switches ) % 100000 ) );
+        System.out.println(ops - ( ops % 100000 ));
     }
 
     /**
      * Sortiert das modded-Array gemäß dem Selection-Sort-Algorithmus.
      */
-    public void OSSA() {
+    public void OSSA(){
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         int min, max;
         // Selectionsort Start
         //OSSA - Optimized Selection Sort Algorithm - nicht stabil, weil wer braucht schon stabil...wenn du stabil willst, dann mach doch einfach RADIX SORT!!!!!!!!!
-        for ( int i = 0; i < ( moddedArray.length / 2 ); i++ ) {
+        for (int i = 0; i < ( moddedArray.length / 2 ); i++) {
             loops += 1;
             min = i;
             max = moddedArray.length - i - 1;
-            for ( int j = i; j < moddedArray.length - i; j++ ) {
+            for (int j = i; j < moddedArray.length - i; j++) {
                 loops += 1;
-                if ( moddedArray[ j ].getNumber() < moddedArray[ min ].getNumber() ) {
+                if (moddedArray[ j ].getNumber() < moddedArray[ min ].getNumber()){
                     min = j;
                 }
-                if ( moddedArray[ j ].getNumber() > moddedArray[ max ].getNumber() ) {
+                if (moddedArray[ j ].getNumber() > moddedArray[ max ].getNumber()){
                     max = j;
                 }
             }
-            if ( max == i ) max = min;
-            switchBalls( min, i );
-            switchBalls( max, moddedArray.length - i - 1 );
+            if (max == i) max = min;
+            switchBalls(min, i);
+            switchBalls(max, moddedArray.length - i - 1);
         }
 
 
@@ -207,22 +209,22 @@ public class MainController {
         updateCoordinates();
     }
 
-    public void selectionSort() {
+    public void selectionSort(){
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         int min;
         // Selectionsort Start
-        for ( int i = 0; i < moddedArray.length; i++ ) {
+        for (int i = 0; i < moddedArray.length; i++) {
             loops += 1;
             min = i;
-            for ( int j = i; j < moddedArray.length; j++ ) {
+            for (int j = i; j < moddedArray.length; j++) {
                 loops += 1;
-                if ( moddedArray[ j ].getNumber() < moddedArray[ min ].getNumber() ) {
+                if (moddedArray[ j ].getNumber() < moddedArray[ min ].getNumber()){
                     min = j;
                 }
             }
-            switchBalls( min, i );
+            switchBalls(min, i);
         }
 
 
@@ -234,22 +236,22 @@ public class MainController {
     /**
      * Sortiert das modded-Array gemäß dem Insertion-Sort-Algorithmus.
      */
-    public void insertionSortArray() {
+    public void insertionSortArray(){
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         // Insertionsort Start
-        for(int i = 1; i < moddedArray.length; i++){
-            loops ++;
-            Ball tmp = moddedArray[i];
+        for (int i = 1; i < moddedArray.length; i++) {
+            loops++;
+            Ball tmp = moddedArray[ i ];
             int j = i;
-            while( j > 0 && moddedArray [j - 1].getNumber() > tmp.getNumber()){
+            while (j > 0 && moddedArray[ j - 1 ].getNumber() > tmp.getNumber()) {
                 loops++;
                 switches++;
-                moddedArray[j] = moddedArray[j-1];
+                moddedArray[ j ] = moddedArray[ j - 1 ];
                 j--;
             }
-            moddedArray[j] = tmp;
+            moddedArray[ j ] = tmp;
             switches++;
         }
         // Insertion Sort Ende
@@ -261,55 +263,53 @@ public class MainController {
         loops = 0;
         switches = 0;
         time = System.nanoTime();
-        int maxLength = ((Math.max(100, moddedArray.length)) + "").length();
+        int maxLength = ( ( Math.max(100, moddedArray.length) ) + "" ).length();
         radixSortRecursive(maxLength, maxLength);
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
     }
 
-
     public void radixSortRecursive(int depth, int maxLength){
-        if(depth > 0){
-            int dividend1 = (int) Math.pow( 10, maxLength - depth );
+        if (depth > 0){
+            int dividend1 = (int) Math.pow(10, maxLength - depth);
             int dividend2 = 10;
-            int [] countsArray = new int[10];
-            for ( Ball ball:moddedArray){
-                countsArray[ (ball.getNumber() / dividend1)%dividend2] ++;
+            int[] countsArray = new int[ 10 ];
+            for (Ball ball : moddedArray) {
+                countsArray[ ( ball.getNumber() / dividend1 ) % dividend2 ]++;
                 loops++;
             }
             for (int i = 1; i < 10; i++) {
-                countsArray[i] = countsArray[i] + countsArray[i - 1];
+                countsArray[ i ] = countsArray[ i ] + countsArray[ i - 1 ];
                 loops++;
             }
             for (int i = 9; i > 0; i--) {
-                countsArray[i] = countsArray[i - 1];
+                countsArray[ i ] = countsArray[ i - 1 ];
                 loops++;
             }
-            countsArray[0] = 0;
-            Ball[] sortedArray = new Ball[moddedArray.length];
-            for ( Ball ball:moddedArray){
-                int tmpCount = (ball.getNumber() / dividend1)%dividend2;
-                sortedArray[countsArray[tmpCount]] = ball;
-                countsArray[tmpCount]++;
+            countsArray[ 0 ] = 0;
+            Ball[] sortedArray = new Ball[ moddedArray.length ];
+            for (Ball ball : moddedArray) {
+                int tmpCount = ( ball.getNumber() / dividend1 ) % dividend2;
+                sortedArray[ countsArray[ tmpCount ] ] = ball;
+                countsArray[ tmpCount ]++;
                 loops++;
                 switches++;
             }
             moddedArray = sortedArray;
-             radixSortRecursive( depth - 1 , maxLength);
+            radixSortRecursive(depth - 1, maxLength);
         }
 
     }
 
-
     /**
      * Sortiert das modded-Array gemäß dem Quick-Sort-Algorithmus.
      */
-    public void quickSortArray() {
+    public void quickSortArray(){
         time = System.nanoTime();
         loops = 0;
         switches = 0;
         // Quick Sort Start
-        quicksortRecursive( 0, moddedArray.length - 1 );
+        quicksortRecursive(0, moddedArray.length - 1);
         // Quick Sort Ende
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
@@ -318,7 +318,7 @@ public class MainController {
     /**
      * Die eigentliche rekursive Quicksort-Methode.
      */
-    private void quicksortRecursive(int start, int end) {
+    private void quicksortRecursive(int start, int end){
         loops++;
         int i = start;
         int j = end;
@@ -337,14 +337,67 @@ public class MainController {
      *
      * @param hashPanel
      */
-    public void hashIt(DrawingPanel hashPanel) {
+    public void hashIt(DrawingPanel hashPanel){
         hashPanel.removeAllObjects();
-        hashArray = new List[ 1 ]; //Die Länge des Arrays wird durch die Anzahl prinzipiell möglicher Funktionswerte der Hash-Funktion festgelegt.
-        //TODO 04b: Nach de Implementierung der Hashfunktion müssen die Ball-Objekte gemäß der Funktion ins hashArray übertragen werden. Beachte hierbei, dass du mit Ballkopien arbeiten musst, nicht mit den Originalen.
+        arrayTree = new List[ 10 ][ 10 ][ 10 ][ 10 ][ 10 ];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                for (int k = 0; k < 10; k++) {
+                    for (int l = 0; l < 10; l++) {
+                        for (int m = 0; m < 10; m++) {
+                            arrayTree[ i ][ j ][ k ][ l ][ m ] = new List<>();
+                        }
+                    }
+                }
+            }
+        }
+        for (Ball ball :
+                originalArray) {
+            int[] hash = hashFunction(ball.getNumber());
+            arrayTree[ hash[ 0 ] ][ hash[ 1 ] ][ hash[ 2 ] ][ hash[ 3 ] ][ hash[ 4 ] ].append(ball.getCopy());
+        }
 
         int x = 10; //Start-Koordinate des ersten anzuzeigenen Balls
         int y = 10; //Start-Koordinate des ersten anzuzeigenen Balls
-        //TODO 04c: Überarbeite die Koordinaten der Ball-Objekte im hashArray für die Darstellung in der View.
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                for (int k = 0; k < 10; k++) {
+                    for (int l = 0; l < 10; l++) {
+                        for (int m = 0; m < 10; m++) {
+                            List<Ball> tmp = arrayTree[ i ][ j ][ k ][ l ][ m ];
+                            tmp.toFirst();
+                            while (tmp.hasAccess()) {
+                                tmp.getContent().setX(x);
+                                tmp.getContent().setY(y);
+                                x += 20;
+                                if (x > maxWidth - 10){
+                                    x = 10;
+                                    y += 20;
+                                }
+                                tmp.next();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                for (int k = 0; k < 10; k++) {
+                    for (int l = 0; l < 10; l++) {
+                        for (int m = 0; m < 10; m++) {
+                            List<Ball> tmp = arrayTree[ i ][ j ][ k ][ l ][ m ];
+                            tmp.toFirst();
+                            while (tmp.hasAccess()) {
+                                hashPanel.addObject(tmp.getContent());
+                                tmp.next();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -353,9 +406,14 @@ public class MainController {
      * @param argument Das übergebene Funktionsargument
      * @return Funktionswert
      */
-    private int hashFunction(int argument) {
-        //TODO 4a: Implementiere eine vernünftige Hashfunktion.
-        return 0;
+    private int[] hashFunction(int argument){
+        int[] array = new int[ 5 ];
+        for (int i = 0; i < array.length; i++) {
+            loops++;
+            int dividend1 = (int) Math.pow(10, array.length - i - 1);
+            array[ i ] = ( argument / dividend1 ) % 10;
+        }
+        return array;
     }
 
     /**
@@ -363,8 +421,22 @@ public class MainController {
      *
      * @param key
      */
-    public void hashSearch(int key) {
-        //TODO 4d: Implementiere die Suche auf der Hashtabelle.
+    public void hashSearch(int key){
+        loops = 0;
+        int[] arrTmp = hashFunction(key);
+
+        List<Ball> tmp = arrayTree[ arrTmp[ 0 ] ][ arrTmp[ 1 ] ][ arrTmp[ 2 ] ][ arrTmp[ 3 ] ][ arrTmp[ 4 ] ];
+        tmp.toFirst();
+        while (tmp.hasAccess()) {
+            loops++;
+            if (tmp.getContent().getNumber() == key){
+                lastFound = tmp.getContent();
+                lastFound.setMarked(true);
+                break;
+            }
+            tmp.next();
+        }
+
     }
 
     /**
@@ -374,7 +446,7 @@ public class MainController {
      * @param a Indexposition des einen Balls
      * @param b Indexposition des anderen Balls
      */
-    private void switchBalls(int a, int b) {
+    private void switchBalls(int a, int b){
         Ball temp = moddedArray[ a ];
         moddedArray[ a ] = moddedArray[ b ];
         moddedArray[ b ] = temp;
@@ -382,15 +454,15 @@ public class MainController {
         switches++;
     }
 
-    public long getTime() {
+    public long getTime(){
         return time;
     }
 
-    public long getLoops() {
+    public long getLoops(){
         return loops;
     }
 
-    public long getSwitches() {
+    public long getSwitches(){
         return switches;
     }
 }
