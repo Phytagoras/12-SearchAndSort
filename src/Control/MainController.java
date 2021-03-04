@@ -169,6 +169,8 @@ public class MainController {
         // Bubble Sort Ende
         time = ( System.nanoTime() - time ) / 1000;
         updateCoordinates();
+        long ops = ((loops + switches)+((loops + switches)%100000));
+        System.out.println(ops - (ops%100000));
     }
 
     /**
@@ -265,12 +267,8 @@ public class MainController {
         updateCoordinates();
     }
 
-    public static void main(String[] args){
-        int dividend1 = (int) Math.pow( 10, 0);
-        int dividend2 = 10;
-        System.out.println((3456/dividend1)%10);
-    }
-    public int radixSortRecursive(int depth, int maxLength){
+
+    public void radixSortRecursive(int depth, int maxLength){
         if(depth > 0){
             int dividend1 = (int) Math.pow( 10, maxLength - depth );
             int dividend2 = 10;
@@ -297,10 +295,8 @@ public class MainController {
                 switches++;
             }
             moddedArray = sortedArray;
-            return radixSortRecursive( depth - 1 , maxLength);
+             radixSortRecursive( depth - 1 , maxLength);
         }
-        return 1;       //sry...ich wollte das unbedingt rekusiv imlementieren, doch bei dieser Anwedung laesst sich kein sinvoller rueckgabetyp verwenden, deshalb einfach Int: 1 = erfolgreich
-                        //Ich will nur die sideeffects des wiederholten Aufrufs erhalten!!!
 
     }
 
