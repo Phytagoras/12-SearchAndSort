@@ -29,7 +29,7 @@ public class MainController {
 
     public static void main(String[] args){
         MainController mainController = new MainController();
-        mainController.hashFunction(213005);
+        mainController.hashFunction(5);
     }
 
     /**
@@ -370,27 +370,12 @@ public class MainController {
                             while (tmp.hasAccess()) {
                                 tmp.getContent().setX(x);
                                 tmp.getContent().setY(y);
+                                hashPanel.addObject(tmp.getContent());
                                 x += 20;
                                 if (x > maxWidth - 10){
                                     x = 10;
                                     y += 20;
                                 }
-                                tmp.next();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                for (int k = 0; k < 10; k++) {
-                    for (int l = 0; l < 10; l++) {
-                        for (int m = 0; m < 10; m++) {
-                            List<Ball> tmp = arrayTree[ i ][ j ][ k ][ l ][ m ];
-                            tmp.toFirst();
-                            while (tmp.hasAccess()) {
-                                hashPanel.addObject(tmp.getContent());
                                 tmp.next();
                             }
                         }
